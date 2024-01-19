@@ -7,17 +7,14 @@ export const mainStyle = `
 }
 .laizypainter-variable-item-row {
     position: relative;
-    margin: 2px;
-    padding: 5px;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
+
 .laizypainter-variable-item {
     position: relative;
-    margin: 2px;
-    padding: 5px;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-color);

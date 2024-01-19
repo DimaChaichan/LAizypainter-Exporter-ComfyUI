@@ -13,7 +13,6 @@ app.registerExtension({
     });
   },
   setup() {
-    // Add canvas menu options
     const orig = LGraphCanvas.prototype.getCanvasMenuOptions;
     LGraphCanvas.prototype.getCanvasMenuOptions = function () {
       const options = orig.apply(this, arguments);
