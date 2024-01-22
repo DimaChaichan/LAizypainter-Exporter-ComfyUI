@@ -193,10 +193,10 @@ export class Variable {
                 })
                 this.possibleSettings.push({
                     title: "Steps",
-                    key: 'steps',
+                    key: 'step',
                     type: 'number',
                     callback: () => {
-                        self.renderSetting("number", "Steps", 1, 'steps')
+                        self.renderSetting("number", "Steps", 1, 'step')
                     }
                 })
                 defaultValueType = "number";
