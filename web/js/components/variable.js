@@ -11,6 +11,7 @@ export class Variable {
 
   onChange;
   onRemove;
+  onMove;
   onAddToRow;
 
   /**
@@ -21,13 +22,14 @@ export class Variable {
    * @param {(res) => void} onRemove
    * @param {(res : {type: string, name: string}) => void} onAddToRow
    */
-  constructor(variable, id, onChange, onRemove, onAddToRow) {
+  constructor(variable, id, onChange, onRemove, onMove, onAddToRow) {
     const self = this;
     self.id = id;
     self.type = variable.type;
 
     self.onChange = onChange;
     self.onRemove = onRemove;
+    self.onMove = onMove;
     self.onAddToRow = onAddToRow;
 
     self.nameInput = $el("input.laizypainter-variable-input", {
@@ -69,6 +71,38 @@ export class Variable {
             "Name:"
           ]),
           self.nameInput,
+          $el("div.laizypainter-down-btn", {
+            onclick: (e) => {
+              const index = Array.from(self.content.parentNode.children).indexOf(self.content)
+              if (index >= Array.from(self.content.parentNode.children).length - 1)
+                return
+              self.content.parentNode.insertBefore(self.content.parentNode.children[index + 1], self.content);
+              self.onMove?.({index: index, dir: "down"});
+            },
+            style: {
+              position: "absolute",
+              right: "42px",
+              top: "0",
+              borderRadius: "3px",
+              height: "20px"
+            }
+          }),
+          $el("div.laizypainter-up-btn", {
+            onclick: (e) => {
+              const index = Array.from(self.content.parentNode.children).indexOf(self.content)
+              if (index === 0)
+                return
+              self.content.parentNode.insertBefore(self.content, self.content.parentNode.children[index - 1]);
+              self.onMove?.({index: index, dir: "up"});
+            },
+            style: {
+              position: "absolute",
+              right: "16px",
+              top: "0",
+              borderRadius: "3px",
+              height: "20px"
+            }
+          }),
           $el("div.laizypainter-close-btn", {
             onclick: (e) => {
               const response = confirm("Are you sure?");
@@ -95,7 +129,7 @@ export class Variable {
           }
       }, res))
     } else {
-      self.rowContent = $el("div", {
+      self.rowContent = $el("div.laizypainter-variable-item-row-items", {
         style:
           {
             maxWidth: 'calc(100vh - 50px)',
@@ -117,6 +151,38 @@ export class Variable {
           }, [
             variable.type
           ]),
+          $el("div.laizypainter-up-btn", {
+            onclick: (e) => {
+              const index = Array.from(self.content.parentNode.children).indexOf(self.content)
+              if (index === 0)
+                return
+              self.content.parentNode.insertBefore(self.content, self.content.parentNode.children[index - 1]);
+              self.onMove?.({index: index, dir: "up"});
+            },
+            style: {
+              position: "absolute",
+              right: "16px",
+              top: "0",
+              borderRadius: "3px",
+              height: "20px"
+            }
+          }),
+          $el("div.laizypainter-down-btn", {
+            onclick: (e) => {
+              const index = Array.from(self.content.parentNode.children).indexOf(self.content)
+              if (index >= Array.from(self.content.parentNode.children).length - 1)
+                return
+              self.content.parentNode.insertBefore(self.content.parentNode.children[index + 1], self.content);
+              self.onMove?.({index: index, dir: "down"});
+            },
+            style: {
+              position: "absolute",
+              right: "42px",
+              top: "0",
+              borderRadius: "3px",
+              height: "20px"
+            }
+          }),
           $el("div.laizypainter-close-btn", {
             onclick: (e) => {
               const response = confirm("Are you sure?");
@@ -446,6 +512,20 @@ export class Variable {
           self.rowVariables.splice(removeIndex, 1)
         }
         self.onRemove?.(res)
+      }, (res) => {
+        const currentIndex = res.index;
+        let moveIndex = currentIndex;
+        switch (res.dir) {
+          case 'up':
+            moveIndex--;
+            break
+          case 'down':
+            moveIndex++;
+            break
+        }
+        const b = self.rowVariables[currentIndex];
+        self.rowVariables[currentIndex] = self.rowVariables[moveIndex];
+        self.rowVariables[moveIndex] = b;
       });
     self.rowVariables.push(newVariable);
     self.rowContent.appendChild(newVariable.content)

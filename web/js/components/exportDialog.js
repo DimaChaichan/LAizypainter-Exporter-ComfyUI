@@ -72,7 +72,6 @@ export class ExportDialog extends ComfyDialog {
                         variables: self.variablesTab.getData(),
                         prompt: self.promptTab.getData(),
                     }
-                    console.log("export", exportLzy)
                     self.downloadObjectAsFile(exportLzy, "task.lzy")
                 }
             },
@@ -81,7 +80,6 @@ export class ExportDialog extends ComfyDialog {
             type: "button",
             textContent: "Import",
             onclick: (e) => {
-                console.log("import")
                 self.openFile()
             },
         });

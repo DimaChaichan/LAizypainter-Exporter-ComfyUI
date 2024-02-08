@@ -29,6 +29,52 @@ export const mainStyle = `
 .laizypainter-btn-selected{
     background-color: var(--border-color) !important;
 }
+.laizypainter-up-btn {
+   font-size: 12px;
+   display: flex;
+   align-items: center;
+   width: 24px;
+   justify-content: center;
+   background: var(--border-color);
+   border-bottom-right-radius: 8px;
+   border-top-right-radius: 8px;
+   transform: translateX(-8px);
+}
+.laizypainter-up-btn::after {
+  content: '↑';
+}
+.laizypainter-up-btn:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
+.laizypainter-variable-item-row-items .laizypainter-up-btn::after {
+  content: '←' !important;
+}
+
+.laizypainter-variable-item-row-items .laizypainter-down-btn::after {
+   content: '→' !important;
+}
+
+.laizypainter-down-btn {
+   font-size: 12px;
+   display: flex;
+   align-items: center;
+   width: 24px;
+   justify-content: center;
+   background: var(--border-color);
+   border-bottom-right-radius: 8px;
+   border-top-right-radius: 8px;
+   transform: translateX(-8px);
+}
+.laizypainter-down-btn::after {
+  content: '↓';
+}
+.laizypainter-down-btn:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
 .laizypainter-close-btn {
    font-size: 12px;
    display: flex;
